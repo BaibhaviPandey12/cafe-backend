@@ -1,30 +1,29 @@
 import express from "express";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 import userRouter from "./routes/userRoute.js";
-import dotenv from 'dotenv';
-
+import cors from "cors"
 dotenv.config();
-
 const app = express();
+app.use(cors())
 app.use(express.json());
+const dbuser = encodeURIComponent(process.env.DBUSER);
+const dbpass = encodeURIComponent(process.env.DBPASS);
 
-// Debug to check env values
-console.log("DBUSER from env:", process.env.DBUSER);
-console.log("DBPASS from env:", process.env.DBPASS);
-
-const db_username = encodeURIComponent(process.env.DBUSER);
-const db_password = encodeURIComponent(process.env.DBPASS);
-
-//  Use backticks for template string!
-mongoose.connect(`mongodb+srv://${db_username}:${db_password}@cluster0.cozci3l.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`)
-  .then(() => {
-    console.log("Connected to MongoDB");
-    app.listen(8083, () => {
-      console.log(" Server running on port 8083");
-    });
-  })
-  .catch((err) => {
-    console.error(" MongoDB connection error:", err);
+mongoose.connect(`mongodb://localhost:27017/merncafe`).then(() => {
+  app.listen(8083, () => {
+    console.log("Server started");
   });
+});
+
+// mongoose
+//   .connect(
+//     `mongodb+srv://${dbuser}:${dbpass}@cluster0.qjxhv.mongodb.net/merncafe?retryWrites=true&w=majority&appName=Cluster0`
+//   )
+//   .then(() => {
+//     app.listen(8080, () => {
+//       console.log("Server started");
+//     });
+//   });
 
 app.use("/api/users", userRouter);
