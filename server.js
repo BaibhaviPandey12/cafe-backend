@@ -14,20 +14,20 @@ const dbuser = encodeURIComponent(process.env.DBUSER);
 const dbpass = encodeURIComponent(process.env.DBPASS);
 
 
-mongoose.connect(`mongodb://localhost:27017/merncafe`).then(() => {
-  app.listen(8083, () => {
-    console.log("Server started");
-  });
-});
+// mongoose.connect(`mongodb://localhost:27017/merncafe`).then(() => {
+//   app.listen(8083, () => {
+//     console.log("Server started");
+//   });
+// });
 
-// mongoose
-//   .connect(
-//     `mongodb+srv://${dbuser}:${dbpass}@cluster0.cozci3l.mongodb.net/merncafe?retryWrites=true&w=majority&appName=Cluster0`
-//   )
-//   .then(() => {
-//     app.listen(8083, () => {
-//       console.log(" Server started on port 8083");
-//     });
-//   })
+mongoose
+  .connect(
+    `mongodb+srv://${dbuser}:${dbpass}@cluster0.cozci3l.mongodb.net/merncafe?retryWrites=true&w=majority&appName=Cluster0`
+  )
+  .then(() => {
+    app.listen(8083, () => {
+      console.log(" Server started on port 8083");
+    });
+  })
  
 app.use("/api/user", userRouter);
